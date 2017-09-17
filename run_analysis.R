@@ -61,3 +61,9 @@ write.table(tidy_data2, file = "tidy_data_set.txt", row.names = FALSE)
 
 
 
+
+
+
+
+
+
