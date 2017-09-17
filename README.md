@@ -18,7 +18,7 @@ In this project, I use the Human Activity Recognition Using Smartphones Dataset 
   
 
 **STEP 1**  
-After loading the necessary packages and setting the working directory, I read-in and merges the training and the test sets to create one data set called *merged_data*:
+After loading the necessary packages and setting the working directory, I read-in and merge the training and test sets to create one data set called *merged_data*:
 
 ```{r}
 test_data <- read.table("./UCI HAR Dataset/test/X_test.txt", stringsAsFactors = FALSE)
@@ -27,26 +27,26 @@ merged_data <- rbind(test_data, train_data)
 ```
 
 **STEP 2**  
-In this step I extracts only the measurements on the mean and standard deviation for each measurement. These are the variables that containg "mean()" and "std() strings in their names. To accomplish this, I read-in the data on the 561 variable names and use them to rename the *merged_data* dataframe:
+In this step I extract only the measurements on the mean and standard deviation for each measurement. These are the variables that contain *"mean()"* and *"std()"* strings in their names. To accomplish this, I read-in the data on the 561 variable names and use them to rename the columns in *merged_data* dataframe:
 
 ```{r}
 var_names <- read.table("./UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
 names(merged_data) <- var_names$V2
 
 ```
-Then I subset *merged_data* to choose only columns which names contain "mean()"" OR "std()":
+Then I subset *merged_data* to extract only the columns with the names that contain the "mean() OR "std()" strings:
 
 ```{r}
 merged_data_sub <- merged_data[ , grep("mean()|std()", names(merged_data))]
 ```
-This extracts the 79 variable that contain *"mean()"* OR *"std()"* out of 561 variables in the dataset.
+This extracts the 79 variables that contain *"mean()"* OR *"std()"* out of 561 variables in the dataset.
 
-At this point in the process, I've (1) created one data set by merging the training and the test sets, (2) extracted only the measurements on the mean and standard deviation for each measurement, and (3) given the data set descriptive labels (part of STEP 4). Hovewer, the data set is still missing the varibales on test subjects and activities. 
+At this point in the process, I've (1) created one data set by merging the training and the test sets, (2) extracted only the measurements on the mean and standard deviation for each measurement, and (3) given the variables in the data set descriptive labels (which is a part of what's required in STEP 4). Hovewer, the data set is still missing the variables (identifiers) on test subjects and activities. 
 
 **STEP 3**  
-In this step I add the variables that identify test subjects (the total of 30 subjects) and test activities (the total of 6 activities) to the data set, after which I give activities descriptive lables from the activity_labels.txt ("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING").
+In this step I add the variables that identify test subjects (the total of 30 subjects) and test activities (the total of 6 activities) to the data set, after which I give activities descriptive lables from the *activity_labels.txt* ("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING").
 
-First read-in and merge the data (variable) that identify activities for both the *test* and *train* data sets:
+First I read-in and merge the data (variable) that identify activities for both the *test* and *train* data sets:
 
 ```{r}
 test_activities <- read.table("./UCI HAR Dataset/test/y_test.txt")
@@ -71,14 +71,14 @@ names(merged_subjects) <- "SubjectID"
 ```
 
 **STEP 4**  
-In the previous steps, I've created three data frames including (1) for measurements on the 79 required variables (2) for activities with descriptive labels, and (3) for subject IDs. The three dataframes have already been labeled with descriptive varibale names, so in this step I am mersging the three data frames in one tidy dataframe called *tidy_data*:
+In the previous steps, I've created three data frames including (1) for measurements on the 79 required variables (2) for activities with descriptive labels, and (3) for subject IDs. The three dataframes have already been labeled with descriptive varibale names, so in this step I am just merging the three data frames in one tidy dataframe called *tidy_data*:
 
 ```{r}
 tidy_data <- cbind(merged_subjects, descr_activity_names, merged_data_sub )
 ```
 
 **STEP 5**  
-The final step requires to create an independent tidy data set with the average of each variable for each activity and each subject and save it in a .txt file.
+The final step requires to create an independent tidy data set with the average of each variable for each activity and each subject and save it in a .txt file. Using the **dplyr** functions **sort-by()** and **summarize()**, I sort the data by *SubjectID* and *Activity* and summarize all the variables by groups:
 
 
 ```{r}
@@ -94,6 +94,8 @@ Saving the final dataset in a file called *tidy_data_set.txt*:
 write.table(tidy_data2, file = "tidy_data_set.txt", row.names = FALSE)
 ```
 
+The final data set contains 81 variables and 180 observations (30 sybjects * 6 activities).
+
 
 ## CODEBOOK ##   
 
@@ -102,7 +104,7 @@ There are 81 variables in the final dataset, 79 of which represent measurement s
 1 SubjectID:  Subject identifier. It ranges from 1 to 30.   
 2 Activity:  Activity identifier. Includes the following labels: "WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING").    
 
-The following are the estimates of **means** and **standard deviations** of signals (times (t) and frequencies (f)) in the X, Y and Z directions for each subject and activity:  
+The following are the estimates of **means** and **standard deviations** of signals (times (t) and frequencies (f)) in the X, Y and Z directions for each subject and activity combination:  
 
 3                tBodyAcc-mean()-X  
 4                tBodyAcc-mean()-Y  
@@ -186,32 +188,6 @@ The following are the estimates of **means** and **standard deviations** of sign
   
   
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
