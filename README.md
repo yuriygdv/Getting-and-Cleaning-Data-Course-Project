@@ -78,7 +78,7 @@ tidy_data <- cbind(merged_subjects, descr_activity_names, merged_data_sub )
 ```
 
 **STEP 5**  
-The final step requires to create an independent tidy data set with the average of each variable for each activity and each subject and save it in a .txt file. Using the **dplyr** functions **sort-by()** and **summarize()**, I sort the data by *SubjectID* and *Activity* and summarize all the variables by groups:
+The final step requires to create an independent tidy data set with the average of each variable for each activity and each subject and save it in a .txt file. Using the **dplyr** functions **group_by()** and **summarize()**, I group the data by *SubjectID* and *Activity* and summarize all the variables by groups:
 
 
 ```{r}
