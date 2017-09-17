@@ -18,7 +18,7 @@ In this project, I use the Human Activity Recognition Using Smartphones Dataset 
   
 
 **STEP 1**  
-After loading the necessary packages and setting the working directory, I read-in and merge the training and test sets to create one data set called *merged_data*:
+After loading the necessary packages and setting the working directory with the data set, I read-in and merge the training and test sets to create one data set called *merged_data*:
 
 ```{r}
 test_data <- read.table("./UCI HAR Dataset/test/X_test.txt", stringsAsFactors = FALSE)
